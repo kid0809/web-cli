@@ -10,12 +10,11 @@ const chalk = require('chalk');
 
 program.version('1.0.0')
     .usage('<command> [options]')
+
+program
     .command('init <app-name>')
-    .description('创建新项目')
-    .action((name, cmd) => {
-        console.log('name', name)
-        const options = cleanArgs(cmd)
-        console.log('options', options)
+    .description('初始化新项目')
+    .action((name) => {
         inquirer.prompt([{
             type: 'input',
             message: `项目名称(${name})?`,
@@ -44,7 +43,7 @@ program.version('1.0.0')
                         console.log(chalk.red(`创建失败：${error.message}`))
                     } else {
                         spinner.succeed()
-                        
+
                         fs.readFile('package.json', 'utf8', (err, data) => {
                             if (err) throw err;
                             const pkg = JSON.parse(data);
@@ -66,7 +65,22 @@ program.version('1.0.0')
         });
     })
 
+program
+    .command('create <component-name>')
+    .description('创建新组件')
+    .option('-f, --function', '创建函数组件')
+    .action((name, cmd) => {
+        const isFunction = cleanArgs(cmd).function ? true : false;
+        const create = require('../lib/createComponent');
+        create(name, isFunction);
+    })
+
 program.parse(process.argv)
+
+
+function camelize(str) {
+    return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
+}
 
 function cleanArgs(cmd) {
     const args = {}
