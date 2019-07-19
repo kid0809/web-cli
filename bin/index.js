@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const fs = require('fs');
+const path = require('path');
 const program = require('commander')
 const inquirer = require('inquirer')
 const download = require('download-git-repo');
@@ -12,9 +13,10 @@ program.version('1.0.0')
     .usage('<command> [options]')
 
 program
-    .command('init <app-name>')
+    .command('init')
     .description('初始化新项目')
-    .action((name) => {
+    .action(() => {
+        const name = path.basename(process.cwd());
         inquirer.prompt([{
             type: 'input',
             message: `项目名称(${name})?`,
@@ -86,8 +88,6 @@ function cleanArgs(cmd) {
     const args = {}
     cmd.options.forEach(o => {
         const key = camelize(o.long.replace(/^--/, ''))
-        // if an option is not present and Command has a method with the same name
-        // it should not be copied
         if (typeof cmd[key] !== 'function' && typeof cmd[key] !== 'undefined') {
             args[key] = cmd[key]
         }
