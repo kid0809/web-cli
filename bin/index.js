@@ -7,9 +7,10 @@ const inquirer = require('inquirer')
 const download = require('download-git-repo');
 const ora = require('ora');
 const chalk = require('chalk');
+const version = require('../package.json').version;
 
 
-program.version('1.0.0')
+program.version(version)
     .usage('<command> [options]')
 
 program
