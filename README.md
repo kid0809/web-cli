@@ -14,7 +14,7 @@
 
 
 
-目前仅支持[react-pc](https://github.com/kid0809/react-template/tree/pc)的模板
+目前仅支持[react-pc](https://github.com/kid0809/react-template/tree/pc)模板和[react-mobile](https://github.com/kid0809/react-template/tree/mobile)模板
 
 ## 创建简单的组件模板
 
