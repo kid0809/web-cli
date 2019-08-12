@@ -1,6 +1,6 @@
 {
   "name": "caih-web-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "react web cli",
   "main": "/bin/index",
   "bin": {
