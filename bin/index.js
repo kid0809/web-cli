@@ -59,7 +59,27 @@ program
                 });
             }
             if (answers.type === 'react-ie8') {
-                console.log('敬请期待...');
+                console.log('正在下载模板...');
+                const dir = process.cwd();
+                const spinner = ora('正在下载项目模板...')
+                spinner.start();
+                download('kid0809/react-template#ie8', dir, (err) => {
+                    if (err) {
+                        spinner.fail()
+                        console.log(chalk.red(`创建失败：${error.message}`))
+                    } else {
+                        spinner.succeed()
+
+                        fs.readFile('package.json', 'utf8', (err, data) => {
+                            if (err) throw err;
+                            const pkg = JSON.parse(data);
+                            pkg.name = answers.name;
+                            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+                            console.log(chalk.green('项目初始化成功!'));
+                            console.log(chalk.cyan('接下来请运行 npm install 和 npm start 来启动项目'));
+                        })
+                    }
+                });
             }
 
             if (answers.type === 'react-mobile') {
