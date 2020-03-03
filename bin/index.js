@@ -30,6 +30,7 @@ program
             prefix: '',
             choices: [
                 "react-pc",
+                "react-electron",
                 "react-ie8",
                 "react-mobile"
             ],
@@ -41,6 +42,29 @@ program
                 const spinner = ora('正在下载项目模板...')
                 spinner.start();
                 download('kid0809/react-template#pc', dir, (err) => {
+                    if (err) {
+                        spinner.fail()
+                        console.log(chalk.red(`创建失败：${error.message}`))
+                    } else {
+                        spinner.succeed()
+
+                        fs.readFile('package.json', 'utf8', (err, data) => {
+                            if (err) throw err;
+                            const pkg = JSON.parse(data);
+                            pkg.name = answers.name;
+                            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+                            console.log(chalk.green('项目初始化成功!'));
+                            console.log(chalk.cyan('接下来请运行 npm install 和 npm run dev 来启动项目'));
+                        })
+                    }
+                });
+            }
+            if (answers.type === 'react-electron') {
+                console.log('正在下载模板...');
+                const dir = process.cwd();
+                const spinner = ora('正在下载项目模板...')
+                spinner.start();
+                download('kid0809/react-template#electron', dir, (err) => {
                     if (err) {
                         spinner.fail()
                         console.log(chalk.red(`创建失败：${error.message}`))
